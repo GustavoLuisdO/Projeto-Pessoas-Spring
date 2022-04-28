@@ -2,14 +2,16 @@ package com.ot.pessoa.dao;
 
 import com.ot.pessoa.domain.Telefone;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.UnexpectedRollbackException;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Repository
-@Transactional
+@Transactional(noRollbackFor=RuntimeException.class)
 public class TelefoneDao {
 
     @PersistenceContext
@@ -19,7 +21,10 @@ public class TelefoneDao {
         try {
             em.persist(telefone);
         }
-        catch (Exception e) {
+        catch (UnexpectedRollbackException e) {
+            e.printStackTrace();
+        }
+        catch (Exception e){
             e.printStackTrace();
         }
     }
@@ -28,7 +33,7 @@ public class TelefoneDao {
         try {
             em.merge(telefone);
         }
-        catch (Exception e) {
+        catch (Exception e){
             e.printStackTrace();
         }
     }
@@ -37,7 +42,7 @@ public class TelefoneDao {
         try {
             em.remove(em.getReference(Telefone.class, id));
         }
-        catch (Exception e) {
+        catch (Exception e){
             e.printStackTrace();
         }
     }
@@ -56,7 +61,7 @@ public class TelefoneDao {
     public List<Telefone> findAll() {
         try {
             List<Telefone> list;
-            list = em.createQuery("SELECT t FROM Telefone t").getResultList();
+            list = em.createQuery("select t from Telefone t").getResultList();
             return list;
         }
         catch (Exception e) {

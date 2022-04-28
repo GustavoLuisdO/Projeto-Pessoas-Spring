@@ -4,8 +4,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "pessoas")
@@ -24,7 +24,7 @@ public class Pessoa implements Serializable {
     private String cpf;
 
     @OneToMany(mappedBy = "dono")
-    private Set<Telefone> telefones = new HashSet<>();
+    private List<Telefone> telefones = new ArrayList<>();
 
     // contrutores
     public Pessoa() {}
@@ -60,7 +60,11 @@ public class Pessoa implements Serializable {
         this.cpf = cpf;
     }
 
-    public Set<Telefone> getTelefones() {
+    public List<Telefone> getTelefones() {
         return telefones;
+    }
+
+    public void setTelefones(List<Telefone> telefones) {
+        this.telefones = telefones;
     }
 }

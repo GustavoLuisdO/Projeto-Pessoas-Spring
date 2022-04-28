@@ -10,15 +10,17 @@ import java.io.Serializable;
 public class Telefone implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false, length = 11)
-    @NotBlank @Size(min = 11, max = 11)
+    @NotBlank
+    @Size(min = 11, max = 11)
     private String numero;
 
     @Column(nullable = false)
-    private boolean celular;
+    private String descricao;
 
     @ManyToOne @JoinColumn(name = "pessoa_id")
     private Pessoa dono;
@@ -26,10 +28,10 @@ public class Telefone implements Serializable {
     // contrutores
     public Telefone() {}
 
-    public Telefone(Long id, String numero, boolean celular, Pessoa dono) {
+    public Telefone(Long id, String numero, String descricao, Pessoa dono) {
         this.id = id;
         this.numero = numero;
-        this.celular = celular;
+        this.descricao = descricao;
         this.dono = dono;
     }
 
@@ -50,12 +52,12 @@ public class Telefone implements Serializable {
         this.numero = numero;
     }
 
-    public boolean isCelular() {
-        return celular;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setCelular(boolean celular) {
-        this.celular = celular;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public Pessoa getDono() {

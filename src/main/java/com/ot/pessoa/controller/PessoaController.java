@@ -1,7 +1,9 @@
 package com.ot.pessoa.controller;
 
 import com.ot.pessoa.dao.PessoaDao;
+import com.ot.pessoa.dao.TelefoneDao;
 import com.ot.pessoa.domain.Pessoa;
+import com.ot.pessoa.domain.Telefone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -18,6 +20,9 @@ public class PessoaController {
 
     @Autowired
     private PessoaDao dao;
+
+    @Autowired
+    private TelefoneDao daoTel;
 
     @GetMapping("/all")
     public ModelAndView findAll(ModelMap model) {
@@ -62,5 +67,19 @@ public class PessoaController {
         dao.delete(id);
         attr.addFlashAttribute("message", "Registro excluido com sucesso!");
         return new ModelAndView("redirect:/pessoa/all");
+    }
+
+    @GetMapping("/details/{id}")
+    public ModelAndView details(@PathVariable("id") Long id, @ModelAttribute("telefone")Telefone telefone, ModelMap model) {
+        model.addAttribute("pessoa", dao.findById(id));
+        return new ModelAndView("/pessoa/details", model);
+    }
+
+    @PostMapping("/details/{id}")
+    public String details(@PathVariable("id") Long id, @ModelAttribute("telefone")Telefone telefone, ModelMap model, RedirectAttributes attr) {
+        Pessoa pessoa = dao.findById(id);
+        telefone.setDono(pessoa);
+        daoTel.create(telefone);
+        return "redirect:/details/{id}";
     }
 }

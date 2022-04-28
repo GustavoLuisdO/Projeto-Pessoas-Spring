@@ -1,13 +1,15 @@
-<%@ page contentType="text/html; charset=ISO-8859-1" pageEncoding="UTF-8" language="java" %>
+<%@ page contentType="text/html; charset=ISO-8859-1"
+         pageEncoding="UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="f" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <html>
 <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
           integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 
-    <title>Pessoas</title>
+    <title>Detalhes</title>
 </head>
 <body>
 <div class="container">
@@ -29,50 +31,56 @@
             </div>
         </nav>
     </header>
+
     <hr>
-    <div class="card-header ${message == null ? 'bg-default' : 'alert-success'}">
-        <span>${message == null ? '&nbsp;' : message}</span>
-    </div>
+    <div>
+        <c:set var="pessoa" scope="session" value="${pessoa}" />
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
+                <h1 class="display-4">${pessoa.nome}</h1>
 
-    <table class="table table-striped table-condensed">
-        <thead>
-        <tr>
-            <th>Id</th>
-            <th>Nome</th>
-            <th>CPF</th>
-            <th>Ações</th>
-        </tr>
-        </thead>
-        <tbody>
-        <c:forEach var="pessoa" items="${pessoas}">
-            <tr>
-                <td>${pessoa.id}</td>
-                <td>${pessoa.nome}</td>
-                <td>${pessoa.cpf}</td>
-                <td>
-                    <spring:url value="/pessoa/details/${pessoa.id}" var="details"/>
-                    <a class="btn btn-outline-secondary" href="${details}">Detalhes</a>
+                <div class="m-3">
+                    <h4>CPF</h4>
+                    <h6>${pessoa.cpf}</h6>
+                </div>
 
+                <hr class="my-4">
+                <div>
                     <spring:url value="/pessoa/update/${pessoa.id}" var="update"/>
                     <a class="btn btn-outline-info" href="${update}">Editar</a>
 
                     <spring:url value="/pessoa/delete/${pessoa.id}" var="delete"/>
                     <a class="btn btn-outline-danger" href="${delete}">Excluir</a>
-                </td>
-            </tr>
-        </c:forEach>
-        </tbody>
-    </table>
-</div>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"
-        integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2"
-        crossorigin="anonymous"></script>
+    <div>
+        <spring:url value="/pessoa/details/${pessoa.id}" var="save"/>
+        <%--@elvariable id="telefone" type="com.ot.pessoa.domain.Telefone"--%>
+        <form:form modelAttribute="telefone" action="${save}" method="post">
+            <form:hidden path="id"/>
+
+            <div class="form-group">
+                <%--@declare id="numero"--%><label for="numero">Número</label>
+                <form:input path="numero" class="form-control"/>
+                <form:errors path="numero" cssClass="text-danger"/>
+            </div>
+
+            <div class="form-group">
+                    <%--@declare id="descricao"--%><label for="descricao">Descrição</label>
+                <form:input path="descricao" class="form-control"/>
+                <form:errors path="descricao" cssClass="text-danger"/>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Confirmar</button>
+            </div>
+
+        </form:form>
+    </div>
+
+</div>
 </body>
 </html>

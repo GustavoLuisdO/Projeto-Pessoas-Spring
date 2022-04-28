@@ -12,10 +12,27 @@
 </head>
 <body>
 <div class="container">
-    <h1>Cadastrar Pessoa</h1>
+
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <spring:url value="/pessoa/all" var="all"/>
+            <a class="navbar-brand" href="${all}">Pessoas</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavDropdown">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <spring:url value="/pessoa/create" var="create"/>
+                        <a class="nav-link" href="${create}">Novo Registro</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
     <hr>
     <div>
-
         <spring:url value="/pessoa/all" var="list"/>
         <a class="btn btn-default" href="${list}">Pessoas Cadastradas</a>
     </div>
