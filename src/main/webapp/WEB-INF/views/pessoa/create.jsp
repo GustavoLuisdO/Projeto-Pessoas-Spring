@@ -33,26 +33,28 @@
 
     <hr>
     <div>
-        <spring:url value="/pessoa/all" var="list"/>
-        <a class="btn btn-default" href="${list}">Pessoas Cadastradas</a>
-    </div>
-    <hr>
-    <div>
         <spring:url value="/pessoa/save" var="save"/>
         <%--@elvariable id="pessoa" type="com.ot.pessoa.domain.Pessoa"--%>
         <form:form modelAttribute="pessoa" action="${save}" method="post">
-            <form:hidden path="id"/>
+<%--            <form:hidden path="id"/>--%>
 
             <div class="form-group">
                 <label for="nome">Nome</label>
-                <form:input path="nome" class="form-control"/>
+                <form:input path="nome" class="form-control" maxlength="100" placeholder="Nome Completo" required="required" />
                 <form:errors path="nome" cssClass="text-danger"/>
             </div>
 
             <div class="form-group">
                 <label for="cpf">CPF</label>
-                <form:input path="cpf" class="form-control"/>
+                <form:input path="cpf" class="form-control" required="required" maxlength="14" placeholder="000.000.000-00" />
                 <form:errors path="cpf" cssClass="text-danger"/>
+            </div>
+
+            <div class="form-group">
+                <label for="genero">Gênero</label>
+                <form:select path="genero" class="form-control">
+                    <form:options items="${generos}" itemLabel="desc"/>
+                </form:select>
             </div>
 
             <div class="form-group">

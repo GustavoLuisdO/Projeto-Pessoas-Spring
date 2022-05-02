@@ -1,7 +1,7 @@
 package com.ot.pessoa.controller;
 
-import com.ot.pessoa.dao.PessoaDao;
-import com.ot.pessoa.dao.TelefoneDao;
+import com.ot.pessoa.dao.GlobalDao;
+import com.ot.pessoa.domain.Genero;
 import com.ot.pessoa.domain.Pessoa;
 import com.ot.pessoa.domain.Telefone;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,26 +13,25 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 @RequestMapping("pessoa")
 public class PessoaController {
 
     @Autowired
-    private PessoaDao dao;
-
-    @Autowired
-    private TelefoneDao daoTel;
+    private GlobalDao dao;
 
     @GetMapping("/all")
     public ModelAndView findAll(ModelMap model) {
-        model.addAttribute("pessoas", dao.findAll());
+        model.addAttribute("pessoas", dao.findAllPessoas());
         return new ModelAndView("/pessoa/list", model);
     }
 
     @GetMapping("/create")
-    public ModelAndView create(@ModelAttribute("pessoa") Pessoa pessoa) {
-        return new ModelAndView("pessoa/create");
+    public ModelAndView create(@ModelAttribute("pessoa") Pessoa pessoa, ModelMap model) {
+        model.addAttribute("generos", Genero.values());
+        return new ModelAndView("pessoa/create", model);
     }
 
     @PostMapping("/save")
@@ -47,7 +46,7 @@ public class PessoaController {
 
     @GetMapping("/update/{id}")
     public ModelAndView viewUpdate(@PathVariable("id") Long id, ModelMap model) {
-        Pessoa pessoa = dao.findById(id);
+        Pessoa pessoa = dao.findByIdPessoa(id);
         model.addAttribute("pessoa", pessoa);
         return new ModelAndView("/pessoa/edit", model);
     }
@@ -64,22 +63,29 @@ public class PessoaController {
 
     @GetMapping("/delete/{id}")
     public ModelAndView delete(@PathVariable("id") Long id, RedirectAttributes attr) {
-        dao.delete(id);
+        dao.deletePessoa(id);
         attr.addFlashAttribute("message", "Registro excluido com sucesso!");
         return new ModelAndView("redirect:/pessoa/all");
     }
 
     @GetMapping("/details/{id}")
-    public ModelAndView details(@PathVariable("id") Long id, @ModelAttribute("telefone")Telefone telefone, ModelMap model) {
-        model.addAttribute("pessoa", dao.findById(id));
-        return new ModelAndView("/pessoa/details", model);
+    public ModelAndView details(@PathVariable("id") Long id, @ModelAttribute("telefone") Telefone telefone, ModelMap model) {
+        Pessoa pessoa = dao.findByIdPessoa(id);
+        List<Telefone> telefones = dao.findByPessoa(id, pessoa);
+
+        model.addAttribute("pessoa", pessoa);
+        model.addAttribute("telefones", telefones);
+
+        return new ModelAndView("pessoa/details", model);
     }
 
     @PostMapping("/details/{id}")
-    public String details(@PathVariable("id") Long id, @ModelAttribute("telefone")Telefone telefone, ModelMap model, RedirectAttributes attr) {
-        Pessoa pessoa = dao.findById(id);
+    public ModelAndView detailsPost(@PathVariable("id") Long id, @Valid @ModelAttribute("telefone") Telefone telefone, RedirectAttributes attr) {
+        Pessoa pessoa = dao.findByIdPessoa(id);
+        telefone.setId(null);
         telefone.setDono(pessoa);
-        daoTel.create(telefone);
-        return "redirect:/details/{id}";
+        dao.create(telefone);
+        attr.addFlashAttribute("message", "Telefone criado com sucesso!");
+        return new ModelAndView("redirect:/pessoa/details/{id}");
     }
 }

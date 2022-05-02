@@ -26,6 +26,9 @@ public class Pessoa implements Serializable {
     @OneToMany(mappedBy = "dono")
     private List<Telefone> telefones = new ArrayList<>();
 
+    @Enumerated(EnumType.STRING)
+    private Genero genero;
+
     // contrutores
     public Pessoa() {}
 
@@ -66,5 +69,23 @@ public class Pessoa implements Serializable {
 
     public void setTelefones(List<Telefone> telefones) {
         this.telefones = telefones;
+    }
+
+    public Genero getGenero() {
+        return genero;
+    }
+
+    public void setGenero(Genero genero) {
+        this.genero = genero;
+    }
+
+    @Override
+    public String toString() {
+        return "Pessoa{" +
+                "id=" + id +
+                ", nome='" + nome + '\'' +
+                ", cpf='" + cpf + '\'' +
+                ", genero=" + genero +
+                '}';
     }
 }

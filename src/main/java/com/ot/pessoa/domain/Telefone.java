@@ -14,9 +14,9 @@ public class Telefone implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 11)
+    @Column(nullable = false, length = 13)
     @NotBlank
-    @Size(min = 11, max = 11)
+    @Size(min = 13, max = 13)
     private String numero;
 
     @Column(nullable = false)
@@ -66,5 +66,15 @@ public class Telefone implements Serializable {
 
     public void setDono(Pessoa dono) {
         this.dono = dono;
+    }
+
+    @Override
+    public String toString() {
+        return "Telefone{" +
+                "id=" + id +
+                ", numero='" + numero + '\'' +
+                ", descricao='" + descricao + '\'' +
+                ", dono=" + dono +
+                '}';
     }
 }

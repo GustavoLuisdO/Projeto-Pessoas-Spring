@@ -7,7 +7,8 @@
 <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
           integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
-    <title>Editar Pessoa</title>
+
+    <title>Editar Telefone</title>
 </head>
 <body>
 <div class="container">
@@ -29,30 +30,28 @@
             </div>
         </nav>
     </header>
-    <hr>
+
     <div>
-        <spring:url value="/pessoa/update" var="update"/>
-        <%--@elvariable id="pessoa" type="com.ot.pessoa.domain.Pessoa"--%>
-        <form:form modelAttribute="pessoa" action="${update}" method="post">
-            <form:hidden path="id"/>
+        <spring:url value="/telefone/updateTel/${telefone.id}" var="save"/>
+        <%--@elvariable id="telefone" type="com.ot.pessoa.domain.Telefone"--%>
+        <form:form modelAttribute="telefone" action="${save}" method="post">
+            <form:hidden path="id" />
 
             <div class="form-group">
-                <%--@declare id="nome"--%><label for="nome">Nome</label>
-                <form:input path="nome" class="form-control" maxlength="100" placeholder="Nome Completo" required="required" />
-                <form:errors path="nome" cssClass="text-danger"/>
+                <c:set var="dono" scope="session" value="${pessoa}" />
+                <h5>${dono.nome}</h5>
             </div>
 
             <div class="form-group">
-                 <%--@declare id="cpf"--%><label for="cpf">CPF</label>
-                <form:input path="cpf" class="form-control" required="required" maxlength="14" placeholder="000.000.000-00" />
-                <form:errors path="cpf" cssClass="text-danger"/>
+                <label for="numero">Número</label>
+                <form:input path="numero" class="form-control" maxlength="13" placeholder="xx xxxxx-xxxx" required="required" />
+                <form:errors path="numero" cssClass="text-danger"/>
             </div>
 
             <div class="form-group">
-                <label for="genero">Gênero</label>
-                <form:select path="genero" class="form-control">
-                    <form:options items="${generos}" itemLabel="desc"/>
-                </form:select>
+                <label for="descricao">Descrição</label>
+                <form:input path="descricao" class="form-control" required="required" />
+                <form:errors path="descricao" cssClass="text-danger"/>
             </div>
 
             <div class="form-group">

@@ -40,6 +40,7 @@
             <th>Id</th>
             <th>Nome</th>
             <th>CPF</th>
+            <th>Gênero</th>
             <th>Ações</th>
         </tr>
         </thead>
@@ -49,6 +50,7 @@
                 <td>${pessoa.id}</td>
                 <td>${pessoa.nome}</td>
                 <td>${pessoa.cpf}</td>
+                <td>${pessoa.genero.desc}</td>
                 <td>
                     <spring:url value="/pessoa/details/${pessoa.id}" var="details"/>
                     <a class="btn btn-outline-secondary" href="${details}">Detalhes</a>
