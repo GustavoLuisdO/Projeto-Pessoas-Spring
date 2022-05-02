@@ -3,13 +3,14 @@ package com.ot.pessoa.dao;
 import com.ot.pessoa.domain.Pessoa;
 import com.ot.pessoa.domain.Telefone;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Repository
 public class GlobalDaoImpl implements GlobalDao {
@@ -50,19 +51,6 @@ public class GlobalDaoImpl implements GlobalDao {
     public void deletePessoa(Long id) {
         try {
             em.remove(em.getReference(Pessoa.class, id));
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        finally {
-            em.close();
-        }
-    }
-
-    @Override
-    public void deleteTelefone(Long id) {
-        try {
-            em.remove(em.getReference(Telefone.class, id));
         }
         catch (Exception e){
             e.printStackTrace();
@@ -126,6 +114,32 @@ public class GlobalDaoImpl implements GlobalDao {
         }
         finally {
             em.close();
+        }
+    }
+
+    @Override
+    public boolean validationPessoa(Pessoa pessoa) {
+        String cpfRegex = "[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}\\-[0-9]{2}";
+        Pattern pattern = Pattern.compile(cpfRegex);
+        Matcher matcher = pattern.matcher(pessoa.getCpf());
+        if (matcher.matches() && pessoa.getNome() != null) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean validationTelefone(Telefone telefone) {
+        String numeroRegex = "[0-9]{2}\\ [0-9]{5}\\-[0-9]{4}";
+        Pattern pattern = Pattern.compile(numeroRegex);
+        Matcher matcher = pattern.matcher(telefone.getNumero());
+        if (matcher.matches() && telefone.getDescricao() != null) {
+            return true;
+        }
+        else {
+            return false;
         }
     }
 }

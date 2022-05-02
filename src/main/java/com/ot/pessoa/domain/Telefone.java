@@ -17,7 +17,7 @@ public class Telefone implements Serializable {
     @Column(nullable = false, length = 13)
     @NotBlank
     @Size(min = 13, max = 13)
-    private String numero;
+    private String numero; // [0-9]{2}\ [0-9]{5}\-[0-9]{4} | 11 90000-0000
 
     @Column(nullable = false)
     private String descricao;
@@ -29,7 +29,7 @@ public class Telefone implements Serializable {
     public Telefone() {}
 
     public Telefone(Long id, String numero, String descricao, Pessoa dono) {
-        this.id = id;
+        setId(null);
         this.numero = numero;
         this.descricao = descricao;
         this.dono = dono;

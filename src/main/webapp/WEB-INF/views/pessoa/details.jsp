@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
           integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/solid.css" integrity="sha384-Tv5i09RULyHKMwX0E8wJUqSOaXlyu3SQxORObAI08iUwIalMmN5L6AvlPX2LMoSE" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/fontawesome.css" integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous"/>
+
     <title>Detalhes</title>
 </head>
 <body>
@@ -54,10 +57,10 @@
                 <hr class="my-4">
                 <div>
                     <spring:url value="/pessoa/update/${pessoa.id}" var="update"/>
-                    <a class="btn btn-outline-info" href="${update}">Editar</a>
+                    <a class="btn btn-outline-info" href="${update}"><i class="fas fa-user-edit"></i></a>
 
                     <spring:url value="/pessoa/delete/${pessoa.id}" var="delete"/>
-                    <a class="btn btn-outline-danger" href="${delete}">Excluir</a>
+                    <a class="btn btn-outline-danger" href="${delete}"><i class="fas fa-backspace"></i></a>
                 </div>
             </div>
         </div>
@@ -66,7 +69,7 @@
     <div>
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
-                <div class="card-header ${message == null ? 'bg-default' : 'alert-success'}">
+                <div class="card-header ${message == null ? 'bg-default' : 'alert alert-warning'}">
                     <span>${message == null ? '&nbsp;' : message}</span>
                 </div>
 
@@ -106,11 +109,12 @@
         <div class="jumbotron jumbotron-fluid text-center">
             <div class="container">
                 <div class="">
-                    <table class="table table-striped table-condensed">
+                    <table class="table table-hover">
                         <thead>
                         <tr>
                             <th>Número</th>
                             <th>Descrição</th>
+                            <th></th>
                         </tr>
                         </thead>
                         <tbody>
@@ -120,7 +124,7 @@
                                 <td>${telefones.descricao}</td>
                                 <td>
                                     <spring:url value="/telefone/updateTel/${telefones.id}" var="update"/>
-                                    <a class="btn btn-outline-info" href="${update}">Editar</a>
+                                    <a class="btn btn-outline-info" href="${update}"><i class="fas fa-user-edit"></i></a>
                                 </td>
                             </tr>
                         </c:forEach>

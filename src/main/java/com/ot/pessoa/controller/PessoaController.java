@@ -25,7 +25,7 @@ public class PessoaController {
     @GetMapping("/all")
     public ModelAndView findAll(ModelMap model) {
         model.addAttribute("pessoas", dao.findAllPessoas());
-        return new ModelAndView("/pessoa/list", model);
+        return new ModelAndView("pessoa/list", model);
     }
 
     @GetMapping("/create")
@@ -37,10 +37,15 @@ public class PessoaController {
     @PostMapping("/save")
     public ModelAndView save(@Valid @ModelAttribute("pessoa") Pessoa pessoa, BindingResult result, RedirectAttributes attr) {
         if (result.hasErrors()) {
-            return new ModelAndView("/pessoa/create");
+            return new ModelAndView("pessoa/create");
         }
-        dao.create(pessoa);
-        attr.addFlashAttribute("message", "Registro inserido com sucesso!");
+        if (dao.validationPessoa(pessoa)) {
+            dao.create(pessoa);
+            attr.addFlashAttribute("message", "Registro inserido com sucesso!");
+        }
+        else {
+            attr.addFlashAttribute("message", "Erro ao inserir registro. Verifique se todos os campos estão preenchidos corretamente!");
+        }
         return new ModelAndView("redirect:/pessoa/all");
     }
 
@@ -48,13 +53,13 @@ public class PessoaController {
     public ModelAndView viewUpdate(@PathVariable("id") Long id, ModelMap model) {
         Pessoa pessoa = dao.findByIdPessoa(id);
         model.addAttribute("pessoa", pessoa);
-        return new ModelAndView("/pessoa/edit", model);
+        return new ModelAndView("pessoa/edit", model);
     }
 
     @PostMapping("/update")
     public ModelAndView update(@Valid @ModelAttribute("pessoa") Pessoa pessoa, BindingResult result, RedirectAttributes attr) {
         if (result.hasErrors()) {
-            return new ModelAndView("/pessoa/edit");
+            return new ModelAndView("pessoa/edit");
         }
         dao.update(pessoa);
         attr.addFlashAttribute("message", "Registro alterado com sucesso!");
@@ -84,8 +89,14 @@ public class PessoaController {
         Pessoa pessoa = dao.findByIdPessoa(id);
         telefone.setId(null);
         telefone.setDono(pessoa);
-        dao.create(telefone);
-        attr.addFlashAttribute("message", "Telefone criado com sucesso!");
+
+        if (dao.validationTelefone(telefone)) {
+            dao.create(telefone);
+            attr.addFlashAttribute("message", "Telefone criado com sucesso!");
+        }
+        else {
+            attr.addFlashAttribute("message", "Erro ao inserir telefone. Verifique se todos os campos estão preenchidos corretamente!");
+        }
         return new ModelAndView("redirect:/pessoa/details/{id}");
     }
 }

@@ -13,8 +13,6 @@ public interface GlobalDao {
 
     void deletePessoa(Long id);
 
-    void deleteTelefone(Long id);
-
     Pessoa findByIdPessoa(Long id);
 
     Telefone findByIdTelefone(Long id);
@@ -22,4 +20,8 @@ public interface GlobalDao {
     List<Object> findAllPessoas();
 
     List<Telefone> findByPessoa(Long id, Pessoa pessoa);
+
+    boolean validationPessoa(Pessoa pessoa);
+
+    boolean validationTelefone(Telefone telefone);
 }

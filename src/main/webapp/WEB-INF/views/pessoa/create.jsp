@@ -31,36 +31,49 @@
         </nav>
     </header>
 
-    <hr>
     <div>
-        <spring:url value="/pessoa/save" var="save"/>
-        <%--@elvariable id="pessoa" type="com.ot.pessoa.domain.Pessoa"--%>
-        <form:form modelAttribute="pessoa" action="${save}" method="post">
-<%--            <form:hidden path="id"/>--%>
+        <div class="jumbotron jumbotron-fluid mt-4">
+            <div class="container">
+                <h1 class="display-4">Novo Registro</h1>
 
-            <div class="form-group">
-                <label for="nome">Nome</label>
-                <form:input path="nome" class="form-control" maxlength="100" placeholder="Nome Completo" required="required" />
-                <form:errors path="nome" cssClass="text-danger"/>
-            </div>
+                <div>
+                    <spring:url value="/pessoa/save" var="save"/>
+                    <%--@elvariable id="pessoa" type="com.ot.pessoa.domain.Pessoa"--%>
+                    <form:form modelAttribute="pessoa" action="${save}" method="post">
 
-            <div class="form-group">
-                <label for="cpf">CPF</label>
-                <form:input path="cpf" class="form-control" required="required" maxlength="14" placeholder="000.000.000-00" />
-                <form:errors path="cpf" cssClass="text-danger"/>
-            </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <label for="nome">Nome</label>
+                                    <form:input path="nome" class="form-control" maxlength="100" placeholder="Nome Completo" required="required" />
+                                    <form:errors path="nome" cssClass="text-danger"/>
+                                </div>
+                            </div>
 
-            <div class="form-group">
-                <label for="genero">Gênero</label>
-                <form:select path="genero" class="form-control">
-                    <form:options items="${generos}" itemLabel="desc"/>
-                </form:select>
-            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <label for="cpf">CPF</label>
+                                    <form:input path="cpf" class="form-control" required="required" maxlength="14" placeholder="000.000.000-00" />
+                                    <form:errors path="cpf" cssClass="text-danger"/>
+                                </div>
+                            </div>
 
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Confirmar</button>
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <label for="genero">Gênero</label>
+                                    <form:select path="genero" class="form-control">
+                                        <form:options items="${generos}" itemLabel="desc"/>
+                                    </form:select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Confirmar</button>
+                        </div>
+                    </form:form>
+                </div>
             </div>
-        </form:form>
+        </div>
     </div>
 </div>
 </body>

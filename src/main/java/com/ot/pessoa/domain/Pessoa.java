@@ -6,6 +6,8 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Entity
 @Table(name = "pessoas")
@@ -20,7 +22,7 @@ public class Pessoa implements Serializable {
     private String nome;
 
     @Column(nullable = false, length = 14)
-    @NotBlank @Size(min = 14, max = 14)  // 000.000.000-00
+    @NotBlank @Size(min = 14, max = 14)  // [0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2} | 000.000.000-00
     private String cpf;
 
     @OneToMany(mappedBy = "dono")
@@ -60,7 +62,7 @@ public class Pessoa implements Serializable {
     }
 
     public void setCpf(String cpf) {
-        this.cpf = cpf;
+            this.cpf = cpf;
     }
 
     public List<Telefone> getTelefones() {
