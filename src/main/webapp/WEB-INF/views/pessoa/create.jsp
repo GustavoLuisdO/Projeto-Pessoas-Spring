@@ -24,17 +24,18 @@
                 <ul class="navbar-nav">
                     <li class="nav-item">
                         <spring:url value="/pessoa/create" var="create"/>
-                        <a class="nav-link" href="${create}">Novo Registro</a>
+                        <a class="nav-link active" href="${create}">Novo Registro</a>
                     </li>
                 </ul>
             </div>
         </nav>
     </header>
 
-    <div>
+    <section>
         <div class="jumbotron jumbotron-fluid mt-4">
             <div class="container">
                 <h1 class="display-4">Novo Registro</h1>
+                <hr class="my-4">
 
                 <div>
                     <spring:url value="/pessoa/save" var="save"/>
@@ -74,7 +75,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 </div>
 </body>
 </html>

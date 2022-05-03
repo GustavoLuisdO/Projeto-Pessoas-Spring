@@ -30,37 +30,53 @@
             </div>
         </nav>
     </header>
-    <hr>
-    <div>
-        <spring:url value="/pessoa/update" var="update"/>
-        <%--@elvariable id="pessoa" type="com.ot.pessoa.domain.Pessoa"--%>
-        <form:form modelAttribute="pessoa" action="${update}" method="post">
-            <form:hidden path="id"/>
 
-            <div class="form-group">
-                <%--@declare id="nome"--%><label for="nome">Nome</label>
-                <form:input path="nome" class="form-control" maxlength="100" placeholder="Nome Completo" required="required" />
-                <form:errors path="nome" cssClass="text-danger"/>
-            </div>
+    <section>
+        <div class="jumbotron jumbotron-fluid mt-4">
+            <div class="container">
+                <h1 class="display-4">Editar Registro de <strong>${pessoa.nome}</strong></h1>
+                <hr class="my-4">
 
-            <div class="form-group">
-                 <%--@declare id="cpf"--%><label for="cpf">CPF</label>
-                <form:input path="cpf" class="form-control" required="required" maxlength="14" placeholder="000.000.000-00" />
-                <form:errors path="cpf" cssClass="text-danger"/>
-            </div>
+                <div>
+                    <spring:url value="/pessoa/update" var="update"/>
+                    <%--@elvariable id="pessoa" type="com.ot.pessoa.domain.Pessoa"--%>
+                    <form:form modelAttribute="pessoa" action="${update}" method="post">
+                        <form:hidden path="id"/>
 
-            <div class="form-group">
-                <label for="genero">Gênero</label>
-                <form:select path="genero" class="form-control">
-                    <form:options items="${generos}" itemLabel="desc"/>
-                </form:select>
-            </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                        <%--@declare id="nome"--%><label for="nome">Nome</label>
+                                    <form:input path="nome" class="form-control" maxlength="100" placeholder="Nome Completo" required="required" />
+                                    <form:errors path="nome" cssClass="text-danger"/>
+                                </div>
+                            </div>
 
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Confirmar</button>
+                            <div class="col-4">
+                                <div class="form-group">
+                                        <%--@declare id="cpf"--%><label for="cpf">CPF</label>
+                                    <form:input path="cpf" class="form-control" required="required" maxlength="14" placeholder="000.000.000-00" />
+                                    <form:errors path="cpf" cssClass="text-danger"/>
+                                </div>
+                            </div>
+
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <label for="genero">Gênero</label>
+                                    <form:select path="genero" class="form-control">
+                                        <form:options items="${generos}" itemLabel="desc"/>
+                                    </form:select>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Confirmar Alterações</button>
+                        </div>
+                    </form:form>
+                </div>
             </div>
-        </form:form>
-    </div>
+        </div>
+    </section>
 </div>
 </body>
 </html>

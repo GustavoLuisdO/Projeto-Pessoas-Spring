@@ -37,7 +37,7 @@
     </header>
 
     <hr>
-    <div>
+    <section>
         <c:set var="pessoa" scope="session" value="${pessoa}"/>
         <div class="jumbotron jumbotron-fluid text-center">
             <div class="container">
@@ -64,9 +64,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div>
+    <section>
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
                 <div class="card-header ${messageSuccess == null ? 'bg-default' : 'alert alert-success'} ${messageError != null ? 'alert alert-danger' : ''}" role="alert">
@@ -78,6 +78,7 @@
                 </div>
 
                 <h1 class="display-4">Adicionar Telefone</h1>
+                <hr class="my-4">
 
                 <div>
                     <spring:url value="/pessoa/details/${pessoa.id}" var="save"/>
@@ -107,9 +108,9 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div>
+    <section>
         <div class="jumbotron jumbotron-fluid text-center">
             <div class="container">
                 <div class="">
@@ -137,7 +138,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
 </div>
 </body>

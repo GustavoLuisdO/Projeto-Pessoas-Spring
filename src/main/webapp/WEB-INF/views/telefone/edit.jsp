@@ -31,34 +31,45 @@
         </nav>
     </header>
 
-    <div>
-        <spring:url value="/telefone/updateTel/${telefone.id}" var="save"/>
-        <%--@elvariable id="telefone" type="com.ot.pessoa.domain.Telefone"--%>
-        <form:form modelAttribute="telefone" action="${save}" method="post">
-            <form:hidden path="id" />
+    <section>
 
-            <div class="form-group">
+        <div class="jumbotron jumbotron-fluid">
+            <div class="container">
                 <c:set var="dono" scope="session" value="${pessoa}" />
-                <h5>${dono.nome}</h5>
-            </div>
+                <h1 class="display-4">Editar Telefone de <strong>${pessoa.nome}</strong></h1>
+                <hr class="my-4">
 
-            <div class="form-group">
-                <label for="numero">Número</label>
-                <form:input path="numero" class="form-control" maxlength="13" placeholder="xx xxxxx-xxxx" required="required" />
-                <form:errors path="numero" cssClass="text-danger"/>
-            </div>
+                <div>
+                    <spring:url value="/telefone/updateTel/${telefone.id}" var="save"/>
+                    <%--@elvariable id="telefone" type="com.ot.pessoa.domain.Telefone"--%>
+                    <form:form modelAttribute="telefone" action="${save}" method="post">
+                        <form:hidden path="id" />
 
-            <div class="form-group">
-                <label for="descricao">Descrição</label>
-                <form:input path="descricao" class="form-control" required="required" />
-                <form:errors path="descricao" cssClass="text-danger"/>
-            </div>
+                        <div class="row">
+                            <div class="col-5">
+                                <div class="form-group">
+                                    <label for="numero">Número</label>
+                                    <form:input path="numero" class="form-control" maxlength="13" placeholder="xx xxxxx-xxxx" required="required" />
+                                    <form:errors path="numero" cssClass="text-danger"/>
+                                </div>
+                            </div>
 
-            <div class="form-group">
-                <button type="submit" class="btn btn-primary">Confirmar</button>
+                            <div class="col-7">
+                                <div class="form-group">
+                                    <label for="descricao">Descrição</label>
+                                    <form:input path="descricao" class="form-control" required="required" />
+                                    <form:errors path="descricao" cssClass="text-danger"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Confirmar Alterações</button>
+                        </div>
+                    </form:form>
+                </div>
             </div>
-        </form:form>
-    </div>
+        </div>
+    </section>
 </div>
 </body>
 </html>

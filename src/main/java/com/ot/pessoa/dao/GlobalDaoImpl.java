@@ -1,5 +1,6 @@
 package com.ot.pessoa.dao;
 
+import com.ot.pessoa.dao.exceptions.MyExceptions;
 import com.ot.pessoa.domain.Pessoa;
 import com.ot.pessoa.domain.Telefone;
 import org.springframework.stereotype.Repository;
@@ -96,7 +97,7 @@ public class GlobalDaoImpl implements GlobalDao {
     public List<Object> findAllPessoas() {
         try {
             List<Object> list;
-            list = em.createQuery("select p from Pessoa p").getResultList();
+            list = em.createQuery("select p from Pessoa p order by p.nome").getResultList();
             return list;
         }
         catch (Exception e) {
@@ -127,26 +128,41 @@ public class GlobalDaoImpl implements GlobalDao {
 
     @Override
     public boolean validationPessoa(Pessoa pessoa) {
-        String cpfRegex = "[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}\\-[0-9]{2}";
-        Pattern pattern = Pattern.compile(cpfRegex);
-        Matcher matcher = pattern.matcher(pessoa.getCpf());
-        if (matcher.matches() && pessoa.getNome() != null) {
-            return true;
+        try {
+            String cpfRegex = "[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}\\-[0-9]{2}";
+            Pattern pattern = Pattern.compile(cpfRegex);
+            Matcher matcher = pattern.matcher(pessoa.getCpf());
+            if (matcher.matches() && pessoa.getNome() != null) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
-        else {
+        catch (MyExceptions e) {
+            throw new MyExceptions(e.getMessage());
+        }
+        catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }
 
     @Override
     public boolean validationTelefone(Telefone telefone) {
-        String numeroRegex = "[0-9]{2}\\ [0-9]{5}\\-[0-9]{4}";
-        Pattern pattern = Pattern.compile(numeroRegex);
-        Matcher matcher = pattern.matcher(telefone.getNumero());
-        if (matcher.matches() && telefone.getDescricao() != null) {
-            return true;
+        try {
+            String numeroRegex = "[0-9]{2}\\ [0-9]{5}\\-[0-9]{4}";
+            Pattern pattern = Pattern.compile(numeroRegex);
+            Matcher matcher = pattern.matcher(telefone.getNumero());
+            if (matcher.matches() && telefone.getDescricao() != null) {
+                return true;
+            }
+            else {
+                return false;
+            }
         }
-        else {
+        catch (Exception e) {
+            e.printStackTrace();
             return false;
         }
     }

@@ -45,7 +45,6 @@
     <table class="table table-hover">
         <thead>
         <tr>
-            <th>Id</th>
             <th>Nome</th>
             <th>CPF</th>
             <th>Gênero</th>
@@ -55,7 +54,6 @@
         <tbody>
         <c:forEach var="pessoa" items="${pessoas}">
             <tr>
-                <td>${pessoa.id}</td>
                 <td>${pessoa.nome}</td>
                 <td>${pessoa.cpf}</td>
                 <td>${pessoa.genero.desc}</td>
