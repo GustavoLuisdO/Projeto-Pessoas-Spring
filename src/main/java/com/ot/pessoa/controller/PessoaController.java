@@ -41,10 +41,10 @@ public class PessoaController {
         }
         if (dao.validationPessoa(pessoa)) {
             dao.create(pessoa);
-            attr.addFlashAttribute("message", "Registro inserido com sucesso!");
+            attr.addFlashAttribute("messageSuccess", "Registro inserido com sucesso!");
         }
         else {
-            attr.addFlashAttribute("message", "Erro ao inserir registro. Verifique se todos os campos estão preenchidos corretamente!");
+            attr.addFlashAttribute("messageError", "Erro ao inserir registro. Preencha todos os campos corretamente!");
         }
         return new ModelAndView("redirect:/pessoa/all");
     }
@@ -61,15 +61,26 @@ public class PessoaController {
         if (result.hasErrors()) {
             return new ModelAndView("pessoa/edit");
         }
-        dao.update(pessoa);
-        attr.addFlashAttribute("message", "Registro alterado com sucesso!");
+
+        if (dao.validationPessoa(pessoa)) {
+            dao.update(pessoa);
+            attr.addFlashAttribute("messageSuccess", "Registro alterado com sucesso!");
+        }
+        else {
+            attr.addFlashAttribute("messageError", "Erro ao alterar registro. Preencha todos os campos corretamente!");
+        }
         return new ModelAndView("redirect:/pessoa/all");
     }
 
     @GetMapping("/delete/{id}")
     public ModelAndView delete(@PathVariable("id") Long id, RedirectAttributes attr) {
-        dao.deletePessoa(id);
-        attr.addFlashAttribute("message", "Registro excluido com sucesso!");
+        if (dao.deletePessoa(id)) {
+            dao.deletePessoa(id);
+            attr.addFlashAttribute("messageSuccess", "Registro excluido com sucesso!");
+        }
+        else {
+            attr.addFlashAttribute("messageError", "Não é possível excluir este registro!");
+        }
         return new ModelAndView("redirect:/pessoa/all");
     }
 
@@ -92,10 +103,10 @@ public class PessoaController {
 
         if (dao.validationTelefone(telefone)) {
             dao.create(telefone);
-            attr.addFlashAttribute("message", "Telefone criado com sucesso!");
+            attr.addFlashAttribute("messageSuccess", "Telefone criado com sucesso!");
         }
         else {
-            attr.addFlashAttribute("message", "Erro ao inserir telefone. Verifique se todos os campos estão preenchidos corretamente!");
+            attr.addFlashAttribute("messageError", "Erro ao inserir telefone. Preencha todos os campos corretamente!");
         }
         return new ModelAndView("redirect:/pessoa/details/{id}");
     }

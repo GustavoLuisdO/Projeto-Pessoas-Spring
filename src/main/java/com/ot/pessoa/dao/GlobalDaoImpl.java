@@ -48,12 +48,20 @@ public class GlobalDaoImpl implements GlobalDao {
 
     @Transactional
     @Override
-    public void deletePessoa(Long id) {
+    public boolean deletePessoa(Long id) {
         try {
-            em.remove(em.getReference(Pessoa.class, id));
+            Pessoa pessoa = findByIdPessoa(id);
+            if (pessoa.getTelefones().isEmpty()) {
+                em.remove(em.getReference(Pessoa.class, id));
+                return true;
+            }
+            else {
+                return false;
+            }
         }
         catch (Exception e){
             e.printStackTrace();
+            return false;
         }
         finally {
             em.close();

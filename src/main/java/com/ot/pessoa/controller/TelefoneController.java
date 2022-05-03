@@ -5,7 +5,6 @@ import com.ot.pessoa.domain.Pessoa;
 import com.ot.pessoa.domain.Telefone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -34,11 +33,18 @@ public class TelefoneController {
         if (result.hasErrors()) {
             return new ModelAndView("telefone/edit");
         }
+
         Telefone tel = dao.findByIdTelefone(id);
         Pessoa pessoa = tel.getDono();
         telefone.setDono(pessoa);
-        dao.update(telefone);
-        attr.addFlashAttribute("message", "Telefone alterado com sucesso!");
+        if (dao.validationTelefone(telefone)) {
+            dao.update(telefone);
+            attr.addFlashAttribute("messageSuccess", "Telefone alterado com sucesso!");
+        }
+        else {
+            attr.addFlashAttribute("messageError", "Erro ao alterar telefone. Preencha todos os campos corretamente!");
+        }
+
         return new ModelAndView("redirect:/pessoa/details/"+pessoa.getId());
     }
 }

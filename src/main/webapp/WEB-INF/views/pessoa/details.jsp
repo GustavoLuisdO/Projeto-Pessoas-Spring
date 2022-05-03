@@ -69,8 +69,12 @@
     <div>
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
-                <div class="card-header ${message == null ? 'bg-default' : 'alert alert-warning'}">
-                    <span>${message == null ? '&nbsp;' : message}</span>
+                <div class="card-header ${messageSuccess == null ? 'bg-default' : 'alert alert-success'} ${messageError != null ? 'alert alert-danger' : ''}" role="alert">
+                    <span>${messageSuccess == null ? '&nbsp;' : messageSuccess}</span>
+                    <span>${messageError == null ? '&nbsp;' : messageError}</span>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
 
                 <h1 class="display-4">Adicionar Telefone</h1>

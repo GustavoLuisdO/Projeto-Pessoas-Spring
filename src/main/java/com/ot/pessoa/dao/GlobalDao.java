@@ -11,7 +11,7 @@ public interface GlobalDao {
 
     void update(Object obj);
 
-    void deletePessoa(Long id);
+    boolean deletePessoa(Long id);
 
     Pessoa findByIdPessoa(Long id);
 
