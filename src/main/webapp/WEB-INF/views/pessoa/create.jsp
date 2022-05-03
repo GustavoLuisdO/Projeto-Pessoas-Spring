@@ -32,7 +32,7 @@
     </header>
 
     <section>
-        <div class="jumbotron jumbotron-fluid mt-4">
+        <div class="jumbotron jumbotron-fluid mt-3">
             <div class="container">
                 <h1 class="display-4">Novo Registro</h1>
                 <hr class="my-4">

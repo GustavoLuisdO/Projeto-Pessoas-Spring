@@ -9,8 +9,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/css/bootstrap.min.css"
           integrity="sha384-zCbKRCUGaJDkqS1kPbPd7TveP5iyJE0EjAuZQTgFLD2ylzuqKfdKlfG/eSrtxUkn" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/solid.css" integrity="sha384-Tv5i09RULyHKMwX0E8wJUqSOaXlyu3SQxORObAI08iUwIalMmN5L6AvlPX2LMoSE" crossorigin="anonymous"/>
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/fontawesome.css" integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/solid.css"
+          integrity="sha384-Tv5i09RULyHKMwX0E8wJUqSOaXlyu3SQxORObAI08iUwIalMmN5L6AvlPX2LMoSE" crossorigin="anonymous"/>
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/fontawesome.css"
+          integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous"/>
 
     <title>Detalhes</title>
 </head>
@@ -36,10 +38,9 @@
         </nav>
     </header>
 
-    <hr>
     <section>
         <c:set var="pessoa" scope="session" value="${pessoa}"/>
-        <div class="jumbotron jumbotron-fluid text-center">
+        <div class="jumbotron jumbotron-fluid text-center mt-3">
             <div class="container">
                 <h1 class="display-4">${pessoa.nome}</h1>
 
@@ -69,16 +70,17 @@
     <section>
         <div class="jumbotron jumbotron-fluid">
             <div class="container">
-                <div class="card-header ${messageSuccess == null ? 'bg-default' : 'alert alert-success'} ${messageError != null ? 'alert alert-danger' : ''}" role="alert">
+                <h2 class="display-4 ml-2">Adicionar Telefone</h2>
+                <hr class="my-4">
+
+                <div class="card-header mb-2 ${messageSuccess == null ? '' : 'alert alert-success'} ${messageError != null ? 'alert alert-danger' : ''}"
+                     role="alert">
                     <span>${messageSuccess == null ? '&nbsp;' : messageSuccess}</span>
                     <span>${messageError == null ? '&nbsp;' : messageError}</span>
                     <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-
-                <h1 class="display-4">Adicionar Telefone</h1>
-                <hr class="my-4">
 
                 <div>
                     <spring:url value="/pessoa/details/${pessoa.id}" var="save"/>
@@ -88,7 +90,8 @@
                             <div class="col-5">
                                 <div class="form-group">
                                     <label for="numero">Número</label>
-                                    <form:input path="numero" class="form-control" maxlength="13" placeholder="00 90000-0000" required="required" />
+                                    <form:input path="numero" class="form-control" maxlength="13"
+                                                placeholder="00 90000-0000" required="required"/>
                                     <form:errors path="numero" cssClass="text-danger"/>
                                 </div>
                             </div>
@@ -96,7 +99,8 @@
                             <div class="col-7">
                                 <div class="form-group">
                                     <label for="descricao">Descrição</label>
-                                    <form:input path="descricao" class="form-control" placeholder="Ex: Ativo" required="required" />
+                                    <form:input path="descricao" class="form-control" placeholder="Ex: Ativo"
+                                                required="required"/>
                                     <form:errors path="descricao" cssClass="text-danger"/>
                                 </div>
                             </div>
@@ -106,14 +110,8 @@
                         </div>
                     </form:form>
                 </div>
-            </div>
-        </div>
-    </section>
 
-    <section>
-        <div class="jumbotron jumbotron-fluid text-center">
-            <div class="container">
-                <div class="">
+                <div class="mt-5">
                     <table class="table table-hover">
                         <thead>
                         <tr>
@@ -129,17 +127,29 @@
                                 <td>${telefones.descricao}</td>
                                 <td>
                                     <spring:url value="/telefone/updateTel/${telefones.id}" var="update"/>
-                                    <a class="btn btn-outline-info" href="${update}"><i class="fas fa-user-edit"></i></a>
+                                    <a class="btn btn-outline-info" href="${update}"><i
+                                            class="fas fa-user-edit"></i></a>
                                 </td>
                             </tr>
                         </c:forEach>
                         </tbody>
                     </table>
                 </div>
+
             </div>
         </div>
     </section>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+        integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.1/dist/js/bootstrap.min.js"
+        integrity="sha384-VHvPCCyXqtD5DqJeNxl2dtTyhF78xXNXdkwX1CZeRusQfRKp+tA7hAShOK/B/fQ2"
+        crossorigin="anonymous"></script>
 </body>
 </html>

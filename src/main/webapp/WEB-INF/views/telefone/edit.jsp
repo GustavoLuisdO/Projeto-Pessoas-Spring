@@ -33,10 +33,10 @@
 
     <section>
 
-        <div class="jumbotron jumbotron-fluid">
+        <div class="jumbotron jumbotron-fluid mt-3">
             <div class="container">
                 <c:set var="dono" scope="session" value="${pessoa}" />
-                <h1 class="display-4">Editar Telefone de <strong>${pessoa.nome}</strong></h1>
+                <h2 class="display-4">Editar Telefone de <strong>${pessoa.nome}</strong></h2>
                 <hr class="my-4">
 
                 <div>

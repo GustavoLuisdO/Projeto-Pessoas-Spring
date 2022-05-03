@@ -32,9 +32,9 @@
     </header>
 
     <section>
-        <div class="jumbotron jumbotron-fluid mt-4">
+        <div class="jumbotron jumbotron-fluid mt-3">
             <div class="container">
-                <h1 class="display-4">Editar Registro de <strong>${pessoa.nome}</strong></h1>
+                <h2 class="display-4">Editar Registro de <strong>${pessoa.nome}</strong></h2>
                 <hr class="my-4">
 
                 <div>
