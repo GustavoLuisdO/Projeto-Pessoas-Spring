@@ -6,8 +6,6 @@ import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 @Entity
 @Table(name = "pessoas")
@@ -30,6 +28,9 @@ public class Pessoa implements Serializable {
 
     @Enumerated(EnumType.STRING)
     private Genero genero;
+
+    @OneToMany(mappedBy = "cliente")
+    private List<Produto> produtos = new ArrayList<>();
 
     // contrutores
     public Pessoa() {}

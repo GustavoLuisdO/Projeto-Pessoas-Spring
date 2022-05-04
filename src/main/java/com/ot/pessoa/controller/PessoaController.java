@@ -3,6 +3,7 @@ package com.ot.pessoa.controller;
 import com.ot.pessoa.dao.GlobalDao;
 import com.ot.pessoa.domain.Genero;
 import com.ot.pessoa.domain.Pessoa;
+import com.ot.pessoa.domain.Produto;
 import com.ot.pessoa.domain.Telefone;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -85,18 +86,23 @@ public class PessoaController {
     }
 
     @GetMapping("/details/{id}")
-    public ModelAndView details(@PathVariable("id") Long id, @ModelAttribute("telefone") Telefone telefone, ModelMap model) {
+    public ModelAndView details(@PathVariable("id") Long id, @ModelAttribute("telefone") Telefone telefone, @ModelAttribute("produto") Produto produto,
+                                ModelMap model) {
+
         Pessoa pessoa = dao.findByIdPessoa(id);
-        List<Telefone> telefones = dao.findByPessoa(id, pessoa);
+        List<Telefone> telefones = dao.findTelefoneByPessoa(id, pessoa);
+        List<Produto> produtos = dao.findProdutoByPessoa(id, pessoa);
 
         model.addAttribute("pessoa", pessoa);
         model.addAttribute("telefones", telefones);
+        model.addAttribute("produtos", produtos);
 
         return new ModelAndView("pessoa/details", model);
     }
 
     @PostMapping("/details/{id}")
-    public ModelAndView detailsPost(@PathVariable("id") Long id, @Valid @ModelAttribute("telefone") Telefone telefone, RedirectAttributes attr) {
+    public ModelAndView detailsPost(@PathVariable("id") Long id, @Valid @ModelAttribute("telefone") Telefone telefone, @ModelAttribute("produto") Produto produto,
+                                    RedirectAttributes attr) {
         Pessoa pessoa = dao.findByIdPessoa(id);
         telefone.setId(null);
         telefone.setDono(pessoa);
@@ -108,6 +114,12 @@ public class PessoaController {
         else {
             attr.addFlashAttribute("messageError", "Erro ao inserir telefone. Preencha todos os campos corretamente!");
         }
+
+        produto.setId(null);
+        produto.setCliente(pessoa);
+        dao.create(produto);
+        attr.addFlashAttribute("messageSuccess", "Produto criado com sucesso!");
+
         return new ModelAndView("redirect:/pessoa/details/{id}");
     }
 }

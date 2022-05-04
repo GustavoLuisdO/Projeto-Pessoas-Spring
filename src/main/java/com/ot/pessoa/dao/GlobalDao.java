@@ -1,6 +1,7 @@
 package com.ot.pessoa.dao;
 
 import com.ot.pessoa.domain.Pessoa;
+import com.ot.pessoa.domain.Produto;
 import com.ot.pessoa.domain.Telefone;
 
 import java.util.List;
@@ -19,7 +20,9 @@ public interface GlobalDao {
 
     List<Object> findAllPessoas();
 
-    List<Telefone> findByPessoa(Long id, Pessoa pessoa);
+    List<Telefone> findTelefoneByPessoa(Long id, Pessoa pessoa);
+
+    List<Produto> findProdutoByPessoa(Long id, Pessoa pessoa);
 
     boolean validationPessoa(Pessoa pessoa);
 

@@ -2,8 +2,10 @@ package com.ot.pessoa.dao;
 
 import com.ot.pessoa.dao.exceptions.MyExceptions;
 import com.ot.pessoa.domain.Pessoa;
+import com.ot.pessoa.domain.Produto;
 import com.ot.pessoa.domain.Telefone;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -19,7 +21,7 @@ public class GlobalDaoImpl implements GlobalDao {
     @PersistenceContext
     private EntityManager em;
 
-    @Transactional
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     @Override
     public void create(Object obj) {
         try {
@@ -110,11 +112,28 @@ public class GlobalDaoImpl implements GlobalDao {
     }
 
     @Override
-    public List<Telefone> findByPessoa(Long id, Pessoa pessoa) {
+    public List<Telefone> findTelefoneByPessoa(Long id, Pessoa pessoa) {
         try {
             List<Telefone> list;
             pessoa = findByIdPessoa(id);
             list = em.createQuery("select telefone from Telefone telefone inner join Pessoa pessoa on telefone.dono.id = pessoa.id where pessoa.id = "+ pessoa.getId()).getResultList();
+            return list;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        finally {
+            em.close();
+        }
+    }
+
+    @Override
+    public List<Produto> findProdutoByPessoa(Long id, Pessoa pessoa) {
+        try {
+            List<Produto> list;
+            pessoa = findByIdPessoa(id);
+            list = em.createQuery("select produto from Produto produto inner join Pessoa pessoa on produto.cliente.id = pessoa.id where pessoa.id = "+ pessoa.getId()).getResultList();
             return list;
         }
         catch (Exception e) {
@@ -154,7 +173,7 @@ public class GlobalDaoImpl implements GlobalDao {
             String numeroRegex = "[0-9]{2}\\ [0-9]{5}\\-[0-9]{4}";
             Pattern pattern = Pattern.compile(numeroRegex);
             Matcher matcher = pattern.matcher(telefone.getNumero());
-            if (matcher.matches() && telefone.getDescricao() != null) {
+            if (matcher.matches() && telefone.getObs() != null) {
                 return true;
             }
             else {

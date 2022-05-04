@@ -20,7 +20,7 @@ public class Telefone implements Serializable {
     private String numero; // [0-9]{2}\ [0-9]{5}\-[0-9]{4} | 11 90000-0000
 
     @Column(nullable = false)
-    private String descricao;
+    private String obs;
 
     @ManyToOne @JoinColumn(name = "pessoa_id")
     private Pessoa dono;
@@ -28,10 +28,10 @@ public class Telefone implements Serializable {
     // contrutores
     public Telefone() {}
 
-    public Telefone(Long id, String numero, String descricao, Pessoa dono) {
+    public Telefone(Long id, String numero, String obs, Pessoa dono) {
         setId(null);
         this.numero = numero;
-        this.descricao = descricao;
+        this.obs = obs;
         this.dono = dono;
     }
 
@@ -52,12 +52,12 @@ public class Telefone implements Serializable {
         this.numero = numero;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getObs() {
+        return obs;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setObs(String obs) {
+        this.obs = obs;
     }
 
     public Pessoa getDono() {
@@ -73,7 +73,7 @@ public class Telefone implements Serializable {
         return "Telefone{" +
                 "id=" + id +
                 ", numero='" + numero + '\'' +
-                ", descricao='" + descricao + '\'' +
+                ", obs='" + obs + '\'' +
                 ", dono=" + dono +
                 '}';
     }
