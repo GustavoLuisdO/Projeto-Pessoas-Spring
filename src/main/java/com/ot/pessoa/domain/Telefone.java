@@ -16,10 +16,12 @@ public class Telefone implements Serializable {
 
     @Column(nullable = false, length = 13)
     @NotBlank
-    @Size(min = 13, max = 13)
+    @Size(min = 13, max = 13, message = "Campo obrigatório. Deve conter {max} caracteres.")
     private String numero; // [0-9]{2}\ [0-9]{5}\-[0-9]{4} | 11 90000-0000
 
     @Column(nullable = false)
+    @NotBlank
+    @Size(min = 1, max = 255, message = "Campo obrigatório. Deve conter entre {min} e {max} caracteres.")
     private String obs;
 
     @ManyToOne @JoinColumn(name = "pessoa_id")

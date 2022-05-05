@@ -40,7 +40,7 @@
                 <hr class="my-4">
 
                 <div>
-                    <spring:url value="/telefone/updateTel/${telefone.id}" var="save"/>
+                    <spring:url value="/telefone/update/${telefone.id}" var="save"/>
                     <%--@elvariable id="telefone" type="com.ot.pessoa.domain.Telefone"--%>
                     <form:form modelAttribute="telefone" action="${save}" method="post">
                         <form:hidden path="id" />
@@ -56,9 +56,10 @@
 
                             <div class="col-7">
                                 <div class="form-group">
-                                    <label for="descricao">Descrição</label>
-                                    <form:input path="descricao" class="form-control" required="required" />
-                                    <form:errors path="descricao" cssClass="text-danger"/>
+                                    <label for="obs">Observação</label>
+                                    <form:textarea path="obs" class="form-control" placeholder="Ex: Ativo" rows="1"
+                                                   required="required"/>
+                                    <form:errors path="obs" cssClass="text-danger"/>
                                 </div>
                             </div>
                         </div>

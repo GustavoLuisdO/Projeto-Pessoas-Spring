@@ -5,7 +5,6 @@ import com.ot.pessoa.domain.Pessoa;
 import com.ot.pessoa.domain.Produto;
 import com.ot.pessoa.domain.Telefone;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
@@ -21,17 +20,15 @@ public class GlobalDaoImpl implements GlobalDao {
     @PersistenceContext
     private EntityManager em;
 
-    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    @Transactional
     @Override
     public void create(Object obj) {
         try {
             em.persist(obj);
-        }
-        catch (Exception e){
-            e.printStackTrace();
-        }
-        finally {
             em.close();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -41,7 +38,7 @@ public class GlobalDaoImpl implements GlobalDao {
         try {
             em.merge(obj);
         }
-        catch (Exception e){
+        catch (Exception e) {
             e.printStackTrace();
         }
         finally {
@@ -54,15 +51,14 @@ public class GlobalDaoImpl implements GlobalDao {
     public boolean deletePessoa(Long id) {
         try {
             Pessoa pessoa = findByIdPessoa(id);
-            if (pessoa.getTelefones().isEmpty()) {
+            if (pessoa.getTelefones().isEmpty() && pessoa.getProdutos().isEmpty()) {
                 em.remove(em.getReference(Pessoa.class, id));
                 return true;
-            }
-            else {
+            } else {
                 return false;
             }
         }
-        catch (Exception e){
+        catch (Exception e) {
             e.printStackTrace();
             return false;
         }
@@ -96,6 +92,18 @@ public class GlobalDaoImpl implements GlobalDao {
     }
 
     @Override
+    public Produto findByIdProduto(Long id) {
+        try {
+            Produto produto = em.find(Produto.class, id);
+            return produto;
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    @Override
     public List<Object> findAllPessoas() {
         try {
             List<Object> list;
@@ -116,7 +124,7 @@ public class GlobalDaoImpl implements GlobalDao {
         try {
             List<Telefone> list;
             pessoa = findByIdPessoa(id);
-            list = em.createQuery("select telefone from Telefone telefone inner join Pessoa pessoa on telefone.dono.id = pessoa.id where pessoa.id = "+ pessoa.getId()).getResultList();
+            list = em.createQuery("select telefone from Telefone telefone inner join Pessoa pessoa on telefone.dono.id = pessoa.id where pessoa.id = " + pessoa.getId()).getResultList();
             return list;
         }
         catch (Exception e) {
@@ -133,7 +141,7 @@ public class GlobalDaoImpl implements GlobalDao {
         try {
             List<Produto> list;
             pessoa = findByIdPessoa(id);
-            list = em.createQuery("select produto from Produto produto inner join Pessoa pessoa on produto.cliente.id = pessoa.id where pessoa.id = "+ pessoa.getId()).getResultList();
+            list = em.createQuery("select produto from Produto produto inner join Pessoa pessoa on produto.cliente.id = pessoa.id where pessoa.id = " + pessoa.getId()).getResultList();
             return list;
         }
         catch (Exception e) {
@@ -168,6 +176,17 @@ public class GlobalDaoImpl implements GlobalDao {
     }
 
     @Override
+    public boolean verificationCPF(Pessoa pessoa) {
+        boolean pessoas = em.createQuery("select p.cpf from Pessoa p where p.cpf = '" + pessoa.getCpf() + "'").getResultList().isEmpty();
+        if (pessoas) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    @Override
     public boolean validationTelefone(Telefone telefone) {
         try {
             String numeroRegex = "[0-9]{2}\\ [0-9]{5}\\-[0-9]{4}";
@@ -183,6 +202,44 @@ public class GlobalDaoImpl implements GlobalDao {
         catch (Exception e) {
             e.printStackTrace();
             return false;
+        }
+    }
+
+    @Override
+    public boolean validationProduto(Produto produto) {
+        try {
+            String precoRegex = "([0-9]+)(\\.[0-9]{1,2})";
+            Pattern pattern = Pattern.compile(precoRegex);
+            Matcher matcher = pattern.matcher(String.valueOf(produto.getPreco()));
+            if (matcher.matches()) {
+                if (produto.getNomeProduto() != null && produto.getDescricao() != null && produto.getPreco() > 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public Double totalSpent(Long id, Pessoa pessoa) {
+        try {
+            Object total;
+            pessoa = findByIdPessoa(id);
+            total = em.createQuery("select SUM(produto.preco) from Produto produto inner join Pessoa pessoa on produto.cliente.id = pessoa.id where pessoa.id = " + pessoa.getId()).getSingleResult();
+            return Double.parseDouble(String.valueOf(total));
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        finally {
+            em.close();
         }
     }
 }

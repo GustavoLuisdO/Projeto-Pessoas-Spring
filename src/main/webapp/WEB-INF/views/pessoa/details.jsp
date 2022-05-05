@@ -68,15 +68,24 @@
     </section>
 
     <section>
-
         <nav>
-            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <div class="nav nav-tabs d-flex justify-content-center" id="nav-tab" role="tablist">
                 <a class="nav-link active" id="nav-produtos-tab" data-toggle="tab" href="#nav-produtos" role="tab"
                    aria-controls="nav-produtos" aria-selected="true">Produtos</a>
                 <a class="nav-link" id="nav-telefones-tab" data-toggle="tab" href="#nav-telefones" role="tab"
                    aria-controls="nav-telefones" aria-selected="false">Telefones</a>
             </div>
         </nav>
+
+        <div class="card-header mb-2 ${messageSuccess == null ? '' : 'alert alert-success'}
+                                        ${messageError != null ? 'alert alert-danger' : ''}" role="alert">
+            <span>${messageSuccess == null ? null : messageSuccess}</span>
+            <span>${messageError == null ? null : messageError}</span>
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+
         <div class="tab-content" id="nav-tabContent">
             <%--            PRODUTOS --%>
             <div class="tab-pane fade show active" id="nav-produtos" role="tabpanel" aria-labelledby="nav-produtos-tab">
@@ -85,21 +94,12 @@
                         <h2 class="display-4 ml-2">Adicionar Produto</h2>
                         <hr class="my-4">
 
-                        <div class="card-header mb-2 ${messageSuccess == null ? '' : 'alert alert-success'} ${messageError != null ? 'alert alert-danger' : ''}"
-                             role="alert">
-                            <span>${messageSuccess == null ? '&nbsp;' : messageSuccess}</span>
-                            <span>${messageError == null ? '&nbsp;' : messageError}</span>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-
                         <div>
                             <spring:url value="/pessoa/details/${pessoa.id}" var="save"/>
                             <%--@elvariable id="produto" type="com.ot.pessoa.domain.Produto"--%>
                             <form:form modelAttribute="produto" action="${save}" method="post">
                                 <div class="row">
-                                    <div class="col-5">
+                                    <div class="col-4">
                                         <div class="form-group">
                                             <label for="nomeProduto">Nome do Produto</label>
                                             <form:input path="nomeProduto" class="form-control" maxlength="50"
@@ -117,11 +117,22 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-5">
+                                    <div class="col-2">
+                                        <div class="form-group">
+                                            <label for="quantidade">Quantidade</label>
+                                            <form:input path="quantidade" class="form-control" type="number" min="1"
+                                                        placeholder="Ex: 1" required="required"/>
+                                            <form:errors path="quantidade" cssClass="text-danger"/>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4">
                                         <div class="form-group">
                                             <label for="descricao">Descrição</label>
                                             <form:textarea path="descricao" class="form-control" maxlength="255"
-                                                        placeholder="Informação sobre o produto" required="required"/>
+                                                           rows="1"
+                                                           placeholder="Informações sobre o produto"
+                                                           required="required"/>
                                             <form:errors path="descricao" cssClass="text-danger"/>
                                         </div>
                                     </div>
@@ -133,20 +144,31 @@
                         </div>
 
                         <div class="mt-5">
+                            <div>
+                                <c:set var="total" scope="session" value="${totalGasto}"/>
+                                <h4>Total Gasto = R$ ${total.doubleValue()}</h4>
+                            </div>
                             <table class="table table-hover">
                                 <thead>
                                 <tr>
                                     <th>Produto</th>
                                     <th>Preço</th>
+                                    <th>Quantidade</th>
                                     <th>Descrição</th>
+                                    <th></th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <c:forEach var="produtos" items="${produtos}">
                                     <tr>
                                         <td>${produtos.nomeProduto}</td>
-                                        <td>${produtos.preco}</td>
+                                        <td>R$ ${produtos.preco}</td>
+                                        <td>${produtos.quantidade}</td>
                                         <td>${produtos.descricao}</td>
+                                        <td>
+                                            <spring:url value="/produto/update/${produtos.id}" var="update"/>
+                                            <a class="btn btn-outline-info" href="${update}"><i class="fas fa-user-edit"></i></a>
+                                        </td>
                                     </tr>
                                 </c:forEach>
                                 </tbody>
@@ -162,15 +184,6 @@
                     <div class="container">
                         <h2 class="display-4 ml-2">Adicionar Telefone</h2>
                         <hr class="my-4">
-
-                        <div class="card-header mb-2 ${messageSuccess == null ? '' : 'alert alert-success'} ${messageError != null ? 'alert alert-danger' : ''}"
-                             role="alert">
-                            <span>${messageSuccess == null ? '&nbsp;' : messageSuccess}</span>
-                            <span>${messageError == null ? '&nbsp;' : messageError}</span>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
 
                         <div>
                             <spring:url value="/pessoa/details/${pessoa.id}" var="save"/>
@@ -190,7 +203,8 @@
                                         <div class="form-group">
                                             <label for="obs">Observação</label>
                                             <form:textarea path="obs" class="form-control" placeholder="Ex: Ativo"
-                                                        required="required"/>
+                                                           rows="1"
+                                                           required="required"/>
                                             <form:errors path="obs" cssClass="text-danger"/>
                                         </div>
                                     </div>
@@ -216,9 +230,8 @@
                                         <td>${telefones.numero}</td>
                                         <td>${telefones.obs}</td>
                                         <td>
-                                            <spring:url value="/telefone/updateTel/${telefones.id}" var="update"/>
-                                            <a class="btn btn-outline-info" href="${update}"><i
-                                                    class="fas fa-user-edit"></i></a>
+                                            <spring:url value="/telefone/update/${telefones.id}" var="update"/>
+                                            <a class="btn btn-outline-info" href="${update}"><i class="fas fa-user-edit"></i></a>
                                         </td>
                                     </tr>
                                 </c:forEach>

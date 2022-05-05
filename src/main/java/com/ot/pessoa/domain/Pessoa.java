@@ -16,11 +16,11 @@ public class Pessoa implements Serializable {
     private Long id;
 
     @Column(nullable = false, length = 100)
-    @NotBlank @Size(min = 3, max = 100)
+    @NotBlank @Size(min = 3, max = 100, message = "Campo obrigatório. Deve conter entre {min} e {max} caracteres.")
     private String nome;
 
     @Column(nullable = false, length = 14)
-    @NotBlank @Size(min = 14, max = 14)  // [0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2} | 000.000.000-00
+    @NotBlank @Size(min = 14, max = 14, message = "Campo obrigatório. Deve conter {max} caracteres.")  // [0-9]{3}\.[0-9]{3}\.[0-9]{3}\-[0-9]{2} | 000.000.000-00
     private String cpf;
 
     @OneToMany(mappedBy = "dono")
@@ -80,6 +80,14 @@ public class Pessoa implements Serializable {
 
     public void setGenero(Genero genero) {
         this.genero = genero;
+    }
+
+    public List<Produto> getProdutos() {
+        return produtos;
+    }
+
+    public void setProdutos(List<Produto> produtos) {
+        this.produtos = produtos;
     }
 
     @Override

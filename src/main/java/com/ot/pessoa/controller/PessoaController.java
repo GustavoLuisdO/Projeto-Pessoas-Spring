@@ -41,8 +41,13 @@ public class PessoaController {
             return new ModelAndView("pessoa/create");
         }
         if (dao.validationPessoa(pessoa)) {
-            dao.create(pessoa);
-            attr.addFlashAttribute("messageSuccess", "Registro inserido com sucesso!");
+            if (dao.verificationCPF(pessoa)) {
+                dao.create(pessoa);
+                attr.addFlashAttribute("messageSuccess", "Registro inserido com sucesso!");
+            }
+            else {
+                attr.addFlashAttribute("messageError", "CPF já cadastrado!");
+            }
         }
         else {
             attr.addFlashAttribute("messageError", "Erro ao inserir registro. Preencha todos os campos corretamente!");
@@ -64,8 +69,13 @@ public class PessoaController {
         }
 
         if (dao.validationPessoa(pessoa)) {
-            dao.update(pessoa);
-            attr.addFlashAttribute("messageSuccess", "Registro alterado com sucesso!");
+            if (dao.verificationCPF(pessoa)) {
+                dao.update(pessoa);
+                attr.addFlashAttribute("messageSuccess", "Registro alterado com sucesso!");
+            }
+            else {
+                attr.addFlashAttribute("messageError", "CPF já cadastrado!");
+            }
         }
         else {
             attr.addFlashAttribute("messageError", "Erro ao alterar registro. Preencha todos os campos corretamente!");
@@ -96,30 +106,31 @@ public class PessoaController {
         model.addAttribute("pessoa", pessoa);
         model.addAttribute("telefones", telefones);
         model.addAttribute("produtos", produtos);
+        model.addAttribute("totalGasto", dao.totalSpent(id, pessoa));
 
         return new ModelAndView("pessoa/details", model);
     }
 
     @PostMapping("/details/{id}")
-    public ModelAndView detailsPost(@PathVariable("id") Long id, @Valid @ModelAttribute("telefone") Telefone telefone, @ModelAttribute("produto") Produto produto,
+    public ModelAndView detailsPost(@PathVariable("id") Long id, @Valid @ModelAttribute("telefone") Telefone telefone, @Valid @ModelAttribute("produto") Produto produto,
                                     RedirectAttributes attr) {
         Pessoa pessoa = dao.findByIdPessoa(id);
-        telefone.setId(null);
-        telefone.setDono(pessoa);
 
         if (dao.validationTelefone(telefone)) {
+            telefone.setId(null);
+            telefone.setDono(pessoa);
             dao.create(telefone);
             attr.addFlashAttribute("messageSuccess", "Telefone criado com sucesso!");
         }
-        else {
-            attr.addFlashAttribute("messageError", "Erro ao inserir telefone. Preencha todos os campos corretamente!");
+        else if (dao.validationProduto(produto)) {
+            produto.setId(null);
+            produto.setCliente(pessoa);
+            dao.create(produto);
+            attr.addFlashAttribute("messageSuccess", "Produto criado com sucesso!");
         }
-
-        produto.setId(null);
-        produto.setCliente(pessoa);
-        dao.create(produto);
-        attr.addFlashAttribute("messageSuccess", "Produto criado com sucesso!");
-
+        else {
+            attr.addFlashAttribute("messageError", "Erro ao inserir registro. Preencha todos os campos corretamente!");
+        }
         return new ModelAndView("redirect:/pessoa/details/{id}");
     }
 }

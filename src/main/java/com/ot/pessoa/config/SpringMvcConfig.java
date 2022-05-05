@@ -32,13 +32,6 @@ public class SpringMvcConfig implements WebMvcConfigurer, ApplicationContextAwar
         return resolver;
     }
 
-    @Bean
-    public MessageSource messageSource() {
-        ResourceBundleMessageSource source = new ResourceBundleMessageSource();
-        source.setBasename("messages");
-        return source;
-    }
-
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new GeneroConverter());

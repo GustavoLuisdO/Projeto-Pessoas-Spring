@@ -18,6 +18,8 @@ public interface GlobalDao {
 
     Telefone findByIdTelefone(Long id);
 
+    Produto findByIdProduto(Long id);
+
     List<Object> findAllPessoas();
 
     List<Telefone> findTelefoneByPessoa(Long id, Pessoa pessoa);
@@ -26,5 +28,11 @@ public interface GlobalDao {
 
     boolean validationPessoa(Pessoa pessoa);
 
+    boolean verificationCPF(Pessoa pessoa);
+
     boolean validationTelefone(Telefone telefone);
+
+    boolean validationProduto(Produto produto);
+
+    Double totalSpent(Long id, Pessoa pessoa);
 }

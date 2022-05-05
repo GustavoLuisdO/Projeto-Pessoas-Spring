@@ -20,16 +20,16 @@ public class TelefoneController {
     @Autowired
     private GlobalDao dao;
 
-    @GetMapping("/updateTel/{id}")
-    public ModelAndView viewUpdateTel(@PathVariable("id") Long id, ModelMap model) {
+    @GetMapping("/update/{id}")
+    public ModelAndView viewUpdate(@PathVariable("id") Long id, ModelMap model) {
         Telefone telefone = dao.findByIdTelefone(id);
         model.addAttribute("telefone", telefone);
         model.addAttribute("pessoa", telefone.getDono());
         return new ModelAndView("telefone/edit", model);
     }
 
-    @PostMapping("/updateTel/{id}")
-    public ModelAndView updateTel(@PathVariable("id") Long id, @Valid @ModelAttribute("telefone") Telefone telefone, BindingResult result, RedirectAttributes attr) {
+    @PostMapping("/update/{id}")
+    public ModelAndView update(@PathVariable("id") Long id, @Valid @ModelAttribute("telefone") Telefone telefone, BindingResult result, RedirectAttributes attr) {
         if (result.hasErrors()) {
             return new ModelAndView("telefone/edit");
         }
@@ -44,7 +44,6 @@ public class TelefoneController {
         else {
             attr.addFlashAttribute("messageError", "Erro ao alterar telefone. Preencha todos os campos corretamente!");
         }
-
         return new ModelAndView("redirect:/pessoa/details/"+pessoa.getId());
     }
 }
