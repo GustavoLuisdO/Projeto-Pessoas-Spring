@@ -69,13 +69,8 @@ public class PessoaController {
         }
 
         if (dao.validationPessoa(pessoa)) {
-            if (dao.verificationCPF(pessoa)) {
-                dao.update(pessoa);
-                attr.addFlashAttribute("messageSuccess", "Registro alterado com sucesso!");
-            }
-            else {
-                attr.addFlashAttribute("messageError", "CPF já cadastrado!");
-            }
+            dao.update(pessoa);
+            attr.addFlashAttribute("messageSuccess", "Registro alterado com sucesso!");
         }
         else {
             attr.addFlashAttribute("messageError", "Erro ao alterar registro. Preencha todos os campos corretamente!");
@@ -117,10 +112,15 @@ public class PessoaController {
         Pessoa pessoa = dao.findByIdPessoa(id);
 
         if (dao.validationTelefone(telefone)) {
-            telefone.setId(null);
-            telefone.setDono(pessoa);
-            dao.create(telefone);
-            attr.addFlashAttribute("messageSuccess", "Telefone criado com sucesso!");
+            if (dao.verificationNumero(telefone)) {
+                telefone.setId(null);
+                telefone.setDono(pessoa);
+                dao.create(telefone);
+                attr.addFlashAttribute("messageSuccess", "Telefone criado com sucesso!");
+            }
+            else {
+                attr.addFlashAttribute("messageError", "Número já cadastrado!");
+            }
         }
         else if (dao.validationProduto(produto)) {
             produto.setId(null);

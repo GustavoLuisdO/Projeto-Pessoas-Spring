@@ -28,11 +28,14 @@ public interface GlobalDao {
 
     boolean validationPessoa(Pessoa pessoa);
 
-    boolean verificationCPF(Pessoa pessoa);
-
     boolean validationTelefone(Telefone telefone);
 
     boolean validationProduto(Produto produto);
+
+    boolean verificationCPF(Pessoa pessoa);
+
+    boolean verificationNumero(Telefone telefone);
+
 
     Double totalSpent(Long id, Pessoa pessoa);
 }

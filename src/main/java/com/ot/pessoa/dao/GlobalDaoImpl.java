@@ -176,17 +176,6 @@ public class GlobalDaoImpl implements GlobalDao {
     }
 
     @Override
-    public boolean verificationCPF(Pessoa pessoa) {
-        boolean pessoas = em.createQuery("select p.cpf from Pessoa p where p.cpf = '" + pessoa.getCpf() + "'").getResultList().isEmpty();
-        if (pessoas) {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
-
-    @Override
     public boolean validationTelefone(Telefone telefone) {
         try {
             String numeroRegex = "[0-9]{2}\\ [0-9]{5}\\-[0-9]{4}";
@@ -222,6 +211,28 @@ public class GlobalDaoImpl implements GlobalDao {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return false;
+        }
+    }
+
+    @Override
+    public boolean verificationCPF(Pessoa pessoa) {
+        boolean pessoas = em.createQuery("select p.cpf from Pessoa p where p.cpf = '" + pessoa.getCpf() + "'").getResultList().isEmpty();
+        if (pessoas) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+
+    @Override
+    public boolean verificationNumero(Telefone telefone) {
+        boolean telefones = em.createQuery("select t.numero from Telefone t where t.numero = '" + telefone.getNumero() + "'").getResultList().isEmpty();
+        if (telefones) {
+            return true;
+        }
+        else {
             return false;
         }
     }

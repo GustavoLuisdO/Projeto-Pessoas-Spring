@@ -55,7 +55,7 @@
                             <div class="col-4">
                                 <div class="form-group">
                                         <%--@declare id="cpf"--%><label for="cpf">CPF</label>
-                                    <form:input path="cpf" class="form-control" required="required" maxlength="14" placeholder="000.000.000-00" />
+                                    <form:input path="cpf" class="form-control" required="required" maxlength="14" disabled="true" placeholder="000.000.000-00" />
                                     <form:errors path="cpf" cssClass="text-danger"/>
                                 </div>
                             </div>
