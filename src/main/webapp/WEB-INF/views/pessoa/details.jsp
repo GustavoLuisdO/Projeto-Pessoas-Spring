@@ -15,8 +15,22 @@
           integrity="sha384-jLKHWM3JRmfMU0A5x5AkjWkw/EYfGUAGagvnfryNV3F9VqM98XiIH7VBGVoxVSc7" crossorigin="anonymous"/>
 
     <title>Detalhes</title>
+
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+        #btn-topo {
+            float: right;
+            bottom: 15px;
+            right: 35px;
+            position: fixed;
+            color: #6c757d;
+        }
+    </style>
 </head>
 <body>
+<div id="topo"></div>
 <div class="container">
 
     <header>
@@ -245,6 +259,8 @@
     </section>
 
 </div>
+<!-- btn para ir ao topo da pag -->
+<abbr title="Ir ao Topo"><a id="btn-topo" href="#topo"><i class="fas fa-arrow-alt-circle-up fa-2x"></i></a></abbr>
 
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
